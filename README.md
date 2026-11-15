@@ -7,6 +7,7 @@ Personal collection of [Agent Skills](https://agentskills.io).
 | Skill | Description |
 | :--- | :--- |
 | [`agent-instruction-hygiene`](./skills/agent-instruction-hygiene/SKILL.md) | Author, refactor, or audit `AGENTS.md`, `SKILL.md`, and agent delegation prompts for frontier models. |
+| [`github-oss-standardize`](./skills/github-oss-standardize/SKILL.md) | Audit and standardize GitHub repositories for open-source release (settings, rulesets, security advisories, and community health files). |
 | [`pr-review-gate`](./skills/pr-review-gate/SKILL.md) | Single-model fresh-context PR review gate with SHA-bound live-boundary verification. |
 | [`intel-xpu`](./skills/intel-xpu/SKILL.md) | Intel XPU GPU programming reference covering SYCL/DPC++, `torch.xpu`, and Level Zero. |
 
