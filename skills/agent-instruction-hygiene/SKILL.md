@@ -23,7 +23,7 @@ Apply these four principles when writing or auditing `SKILL.md`, `AGENTS.md`, or
 - **Route docs by context, never "before every edit"**: Never force upfront full-repo reading stacks (`Before every edit, read X, Y, Z`). Map docs to when they apply (`Use architecture.md for service boundaries, api.md for Hub REST endpoints`).
 - **Drop generic handholding; grant explicit safe autonomy**: Frontier models run checks naturally—avoid generic nagging to test. Instead, explicitly state safe local execution boundaries so tentative models keep going without unnecessary approval stops:
   > *Example*: Local tests use disposable fixtures with no production access; run them, fix failures caused by your change, and rerun affected tests without pausing for approval.
-- **Prune regularly**: Delete outdated guardrails added for older model failure modes.
+- **Prune cleanly (zero transitional residue)**: Delete outdated guardrails, state only the target invariant (avoid "no legacy-X" negations), and grep sibling `AGENTS.md` / `README.md` / `docs/` to clear dangling references.
 
 ## 3. Calibrated Decision Boundaries
 
