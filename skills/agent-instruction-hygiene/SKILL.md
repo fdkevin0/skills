@@ -1,7 +1,7 @@
 ---
 name: agent-instruction-hygiene
 description: >-
-  Author, refactor, or audit AGENTS.md, SKILL.md, and agent task/trigger prompts
+  Author, refactor, or audit AGENTS.md, SKILL.md, and agent delegation prompts
   for frontier models (GPT-6 Astra, Gemini 4). Use when creating or reviewing
   skills, repository rules, or automated delegation prompts.
 ---
@@ -29,7 +29,7 @@ Apply these four principles when writing or auditing `SKILL.md`, `AGENTS.md`, or
 
 - **State real safety boundaries, not alarmist stop-signs**: Aligned frontier models take defensive "always stop and ask first" rules literally and halt prematurely on safe work. Reserve hard stops strictly for irreversible, external, or credential/production-mutating actions.
 
-## 4. Explicit Completion & Persistence (Task & Trigger Prompts)
+## 4. Explicit Completion & Persistence (Delegation Prompts)
 
 - **Define "done" upfront**: Frontier models like GPT-6 Astra may stop after a first pass for review unless told how far to carry the task. Explicitly specify end-to-end completion criteria (e.g., implement, run verification, inspect output, fix caused failures, and reach target state).
 - **Eliminate unintended mid-flight checkpoints**: Do not ask for intermediate review pauses unless human sign-off is genuinely required before the next step.

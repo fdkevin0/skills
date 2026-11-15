@@ -8,23 +8,21 @@ description: >-
 
 # Single-Model Live PR Review Gate
 
-Every non-trivial PR or branch must pass **one independent fresh-context Review Agent** auditing both static invariants and real-environment execution evidence before merge.
+Every non-trivial PR or branch requires sign-off from **one fresh-context Review Agent** before merge.
 
-## 1. Reviewer Routing
+## 1. Dispatch
 
-- **Default (Single Fresh-Context Reviewer)**: Run one fresh-context review agent (prefer a distinct model family from the author when `codex-auth` / `agy-auth` quota permits; apply the `ponytail-review` lens for logic, security, YAGNI, and bloat).
-- **High-Risk Escalation (Dual-Model)**: Add a second independent model family only when the diff touches authentication/credentials, persistent data/schema migrations, concurrency/locking primitives, or global agent instructions.
+- **Antigravity**: Launch one fresh-context subagent via `invoke_subagent` (`TypeName: "self"`, `Model: "inherit"`; under `Orchestrator`, dispatch during the Plan / Plan Review turn so `inherit` binds to the Carbon/Argon planner rather than the Flash execution worker).
+- **Other harnesses (`paseo` / CLI)**: Run one fresh-context review session on the active default frontier model.
+- **Review scope**: Read-only against repository files; audit logic, security, load behavior, YAGNI (`ponytail-review` lens), and compliance with global/repo `AGENTS.md` and `docs/preferences/`.
 
-## 2. Two-Part Verification Contract
+## 2. Verification & Verdict Contract
 
-1. **SHA-Bound Runtime Evidence (`unit` + `live`)**:
-   - Bind all findings and test outputs to the exact `HEAD` commit SHA (`Reviewed-SHA`).
-   - Verify offline `unit` checks (`tsc`/lint/pure tests) pass cleanly.
-   - Whenever the diff touches an external boundary (CLI, RPC/ACP, HTTP API, DB, auth), require real-environment verification (`live`) in an isolated temp home/namespace with `finally` cleanup—never inject production/admin secrets (such as org/admin API keys or production `.env` secrets) into automated test runs.
-   - Use explicit verdicts that separate code defects from environment blocks:
-     - `APPROVED` — zero static blockers and `LIVE_PASS` (or justified `LIVE_NA` for pure logic/docs-only diffs).
-     - `CHANGES_REQUIRED` — correctness, security, invariant, test-hygiene, or doc-drift blocker.
-     - `ENV_BLOCKED` — external `429`/`5xx`, missing isolated test account, or unavailable local binary; report the block and stop rather than mocking around it.
-2. **Static Invariant & Test-Hygiene Audit**:
-   - Enforce repository engineering preferences (`AGENTS.md`, `docs/preferences/`) and global agent instructions.
-   - Reject AI test pathologies: module/private-prototype monkey-patching (`vi.mock`, `jest.mock`, `*.prototype.<private>`) that bypasses real wire parsers or TTLs; missing entrypoint DI seams; unisolated tests reading host `~/.gemini` or credentials; overly loose `string | object` unions hiding real display/schema fields; deleting failing tests without an explicit spec/contract change in the active task/PR; and control flow (`if`/`for`/`while`/`?:`) or sleeps in test code.
+- **Bind to `HEAD`**: Record the exact commit SHA (`Reviewed-SHA`) for all checks and findings.
+- **Run both tiers**:
+  - `Tier 1 (unit)`: Offline typecheck, lint, and pure unit tests pass, with no banned test anti-patterns from `AGENTS.md`.
+  - `Tier 2 (live)`: When the diff crosses an external boundary (CLI, RPC/ACP, HTTP, DB, auth), verify behavior against the real local runtime or isolated test account in a temp home/namespace with teardown—never pass production or org/admin secrets.
+- **Emit one verdict**:
+  - `APPROVED` — zero blockers and `LIVE_PASS` (or justified `LIVE_NA` for pure logic/docs).
+  - `CHANGES_REQUIRED` — correctness, security, invariant, test-hygiene, bloat, or doc-drift blocker.
+  - `ENV_BLOCKED` — external `429`/`5xx`, missing isolated test account, or unavailable local runtime; report and stop rather than mocking around it.
