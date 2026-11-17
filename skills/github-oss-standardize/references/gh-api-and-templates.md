@@ -12,6 +12,7 @@ gh api "repos/$REPO/rulesets"
 gh api "repos/$REPO/actions/permissions/workflow"
 gh api "repos/$REPO/private-vulnerability-reporting"
 gh api -i "repos/$REPO/vulnerability-alerts" | head -n 5
+gh api -i "repos/$REPO/immutable-releases" | head -n 5  # 200 enabled:true when active; 404 when disabled
 gh api "repos/$REPO/commits/HEAD/check-runs" --jq '.check_runs[] | {name, app_id: .app.id, app_slug: .app.slug}'
 gh api "repos/$REPO/branches" --jq '.[].name'
 ```
@@ -43,11 +44,12 @@ gh api --method PATCH "repos/$REPO" --input - <<'EOF'
 EOF
 ```
 
-### Private Vulnerability Reporting & Vulnerability Alerts (`PUT`)
+### Private Vulnerability Reporting, Vulnerability Alerts & Immutable Releases (`PUT`)
 
 ```bash
 gh api --method PUT "repos/$REPO/private-vulnerability-reporting"
 gh api --method PUT "repos/$REPO/vulnerability-alerts"
+gh api --method PUT "repos/$REPO/immutable-releases"
 ```
 
 ### Branch Ruleset (`main: PR + CI + squash`)
@@ -55,7 +57,15 @@ gh api --method PUT "repos/$REPO/vulnerability-alerts"
 For admin PR-only bypass instead of strict zero-bypass, set `"bypass_actors": [{"actor_id": 5, "actor_type": "RepositoryRole", "bypass_mode": "pull_request"}]`.
 
 ```bash
-gh api --method POST "repos/$REPO/rulesets" --input - <<'EOF'
+RULESET_ID="$(gh api "repos/$REPO/rulesets" --jq '.[] | select(.name == "main: PR + CI + squash") | .id' | head -n 1)"
+METHOD="POST"
+ENDPOINT="repos/$REPO/rulesets"
+if [ -n "$RULESET_ID" ]; then
+  METHOD="PUT"
+  ENDPOINT="repos/$REPO/rulesets/$RULESET_ID"
+fi
+
+gh api --method "$METHOD" "$ENDPOINT" --input - <<'EOF'
 {
   "name": "main: PR + CI + squash",
   "target": "branch",
@@ -104,7 +114,15 @@ EOF
 ### Tag Ruleset (`immutable-release-tags`)
 
 ```bash
-gh api --method POST "repos/$REPO/rulesets" --input - <<'EOF'
+RULESET_ID="$(gh api "repos/$REPO/rulesets" --jq '.[] | select(.name == "immutable-release-tags") | .id' | head -n 1)"
+METHOD="POST"
+ENDPOINT="repos/$REPO/rulesets"
+if [ -n "$RULESET_ID" ]; then
+  METHOD="PUT"
+  ENDPOINT="repos/$REPO/rulesets/$RULESET_ID"
+fi
+
+gh api --method "$METHOD" "$ENDPOINT" --input - <<'EOF'
 {
   "name": "immutable-release-tags",
   "target": "tag",

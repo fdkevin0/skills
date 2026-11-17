@@ -7,9 +7,11 @@ Personal collection of [Agent Skills](https://agentskills.io).
 | Skill | Description |
 | :--- | :--- |
 | [`agent-instruction-hygiene`](./skills/agent-instruction-hygiene/SKILL.md) | Author, refactor, or audit `AGENTS.md`, `SKILL.md`, and agent delegation prompts for frontier models. |
-| [`github-oss-standardize`](./skills/github-oss-standardize/SKILL.md) | Audit and standardize GitHub repositories for open-source release (settings, rulesets, security advisories, and community health files). |
+| [`github-oss-standardize`](./skills/github-oss-standardize/SKILL.md) | Audit and standardize GitHub repositories for open-source release (settings, rulesets, immutable releases, security advisories, and community health files). |
 | [`pr-review-gate`](./skills/pr-review-gate/SKILL.md) | Single-model fresh-context PR review gate with SHA-bound live-boundary verification. |
-| [`intel-xpu`](./skills/intel-xpu/SKILL.md) | Intel XPU GPU programming reference covering SYCL/DPC++, `torch.xpu`, and Level Zero. |
+| [`release-workflow`](./skills/release-workflow/SKILL.md) | Prepare, land, tag, and verify software releases on repositories with protected `main` branches and immutable `v*` tag publishing. |
+| [`renovate-automerge`](./skills/renovate-automerge/SKILL.md) | Audit and configure Renovate dependency bumping with grouped schedules and risk-tiered GitHub native automerge. |
+| [`intel-xpu`](./skills/intel-xpu/SKILL.md) | Minimal router and reference for Intel XPU GPU programming across SYCL/DPC++, Level Zero, and `torch.xpu`. |
 
 ## Global Rules
 

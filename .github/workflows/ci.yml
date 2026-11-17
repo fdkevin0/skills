@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Validate skills and links
+        run: python3 scripts/validate.py
+      - name: Validate Renovate baseline config
+        run: npx --yes --package renovate -- renovate-config-validator --strict skills/renovate-automerge/references/renovate-baseline.json
