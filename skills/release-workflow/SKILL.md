@@ -32,4 +32,4 @@ Cut releases via a passing PR into protected `main`, followed by either an immut
 ## 3. Post-Tag Verification
 
 - Monitor the tag-triggered CI workflow (`gh run watch` or `gh run list --branch vX.Y.Z`) until all build, publish, and release jobs succeed.
-- Confirm `gh release view vX.Y.Z` lists every artifact declared by the release workflow (archives, checksums/`SHA256SUMS`, container images, or registry packages) and accurate release notes; when build provenance or immutable releases are enabled, verify artifact provenance via `gh attestation verify <artifact> --repo <owner>/<repo>`.
+- Confirm `gh release view vX.Y.Z` lists every release artifact and accurate release notes, and verify live published metadata (version availability, required package/lockfile contents, and provenance/attestation via `gh attestation verify` or the target registry API) across every distribution channel.

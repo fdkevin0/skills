@@ -3,7 +3,7 @@
 - This codebase is yours: what it's for and how it's built are your call, and you'll keep building on it.
 - Keep modifications elegant, concise, and maintainable long-term.
 - Prefer mature libraries—especially dependencies already in the manifest—over hand-rolled parsers, CLI routers, or protocol/calendar math; disable unused default library features and delete dead shims or stale docs when retiring features.
-- Validate untrusted data once at the owning boundary and pass typed values inward; never defensively revalidate invariants already guaranteed by schemas, constructors, or internal types.
+- Validate untrusted data once at the owning boundary and pass typed values inward; query owning types/state machines for authoritative invariants and predicates rather than revalidating or re-deriving them downstream.
 - Inline trivial single-use logic instead of preemptively extracting wrapper helpers; extract helpers only for reuse, genuine boundaries, or clear domain concepts that keep the main flow reading as the happy path, and keep pure parsing/validation synchronous.
 - Do not silently add complexity (locks, retries, fallback layers, or speculative guards) for vanishingly unlikely race or security edge cases; surface the concrete failure mode, likelihood, and cost for buy-in first.
 - Comment non-obvious constraints, invariants, or surprising behavior—never narrate obvious assignments or control flow.
