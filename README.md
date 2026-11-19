@@ -11,6 +11,7 @@ Personal collection of [Agent Skills](https://agentskills.io).
 | [`pr-review-gate`](./skills/pr-review-gate/SKILL.md) | Single-model fresh-context PR review gate with SHA-bound live-boundary verification. |
 | [`release-workflow`](./skills/release-workflow/SKILL.md) | Prepare, land, tag, and verify software releases on repositories with protected `main` branches and immutable `v*` tag publishing. |
 | [`renovate-automerge`](./skills/renovate-automerge/SKILL.md) | Audit and configure Renovate dependency bumping with grouped schedules and risk-tiered GitHub native automerge. |
+| [`test-hardening`](./skills/test-hardening/SKILL.md) | Audit, de-flake, and refactor test suites for `AGENTS.md` compliance, concurrency races, and host-state isolation. |
 | [`intel-xpu`](./skills/intel-xpu/SKILL.md) | Minimal router and reference for Intel XPU GPU programming across SYCL/DPC++, Level Zero, and `torch.xpu`. |
 
 ## Global Rules

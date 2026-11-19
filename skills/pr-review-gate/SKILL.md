@@ -16,6 +16,7 @@ Every non-trivial PR or branch requires sign-off from **one fresh-context Review
 - **Other harnesses (`paseo` / CLI)**: Run one fresh-context review session on the active default frontier model.
 - **Review scope**: Read-only against repository files; audit logic, security, load behavior, YAGNI (`ponytail-review` lens), and compliance with global/repo `AGENTS.md` and `docs/preferences/`.
 - **Cleanup & schema checks**: Flag hand-rolled wheels replaceable by mature/existing deps, leftover dead types/docs from retired features, stub-echo tests, and offline fixtures whose shape diverges from live external payloads.
+- **Test-refactor & isolation checks**: Diff removed/renamed test titles against the base branch to verify no unique behavioral coverage was dropped, and run mechanical static/AST checks for banned test patterns (monkey-patching, ambient env/`PATH` leaks, sleeps, and in-test control flow) rather than eyeballing large diffs.
 
 ## 2. Verification & Verdict Contract
 

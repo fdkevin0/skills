@@ -143,6 +143,20 @@ gh api --method "$METHOD" "$ENDPOINT" --input - <<'EOF'
 EOF
 ```
 
+*(If the release workflow force-updates floating `v{major}` / `v{major}.{minor}` git tags, narrow `"include"` above to `["refs/tags/v*.*.*"]`.)*
+
+### Troubleshooting Stale Actions Event Routing (Detached Forks)
+
+If `workflow_dispatch` works while `push`, `pull_request`, and `schedule` events never fire (and `actions/workflows` `updated_at` stays stale after workflow edits — common on detached forks), force GitHub to re-register event hooks:
+
+```bash
+# Read current `allowed_actions` from `repos/$REPO/actions/permissions` first and preserve it on re-enable
+gh api -X PUT "repos/$REPO/actions/permissions" -F enabled=false
+gh api -X PUT "repos/$REPO/actions/permissions" -F enabled=true -f allowed_actions=<CURRENT_POLICY>
+# Re-enable each event-driven workflow ID from `repos/$REPO/actions/workflows`
+gh workflow disable <WORKFLOW_ID> --repo "$REPO" && gh workflow enable <WORKFLOW_ID> --repo "$REPO"
+```
+
 ## 3. Governance & Template Skeletons
 
 Adapt commands, runtime flags, and sensitive-artifact redaction lists to the target repository.
