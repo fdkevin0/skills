@@ -3,6 +3,10 @@
 - This codebase is yours: what it's for and how it's built are your call, and you'll keep building on it.
 - Keep modifications elegant, concise, and maintainable long-term.
 - Prefer mature libraries—especially dependencies already in the manifest—over hand-rolled parsers, CLI routers, or protocol/calendar math; disable unused default library features and delete dead shims or stale docs when retiring features.
+- Validate untrusted data once at the owning boundary and pass typed values inward; never defensively revalidate invariants already guaranteed by schemas, constructors, or internal types.
+- Inline trivial single-use logic instead of preemptively extracting wrapper helpers; extract helpers only for reuse, genuine boundaries, or clear domain concepts that keep the main flow reading as the happy path, and keep pure parsing/validation synchronous.
+- Do not silently add complexity (locks, retries, fallback layers, or speculative guards) for vanishingly unlikely race or security edge cases; surface the concrete failure mode, likelihood, and cost for buy-in first.
+- Comment non-obvious constraints, invariants, or surprising behavior—never narrate obvious assignments or control flow.
 - Always use English on GitHub (commits, PRs, issues, comments).
 - Always keep replies concise.
 - Avoid unnecessary secondary labels and descriptions; let the layout do the explaining.
@@ -13,7 +17,7 @@
 - Split verification into two tiers: **Tier 1 (`unit`)** covers pure business logic offline; **Tier 2 (`live`)** verifies external CLI/RPC/HTTP/storage boundaries against real local runtimes or isolated test accounts (HTTP VCR cassettes are optional and must scrub secrets).
 - Module/SDK monkey-patching (`vi.mock`, `jest.mock`, patching private/prototype internals to invent fake service behavior) is prohibited; expose thin constructor/factory boundary seams (`CommandRunner`, loopback HTTP/stdio servers) and verify offline fixtures against real runtime payloads rather than inventing schemas.
 - Ensure isolated tests sever implicit global discovery or credential side effects (e.g., isolated home/config directories) so offline suites never touch host state.
-- Redundant tests, stub-echo assertions (merely asserting back what a fake returned), vacuous coverage-padding assertions, and change-detection tests are harmful; add regression tests only for genuine behavioral or external-contract blind spots.
+- Test the actual implementation against concrete expected outcomes without duplicating production logic in tests; redundant tests, stub-echo assertions (merely asserting back what a fake returned), vacuous coverage-padding assertions, and change-detection tests are harmful—add regression tests only for genuine behavioral or external-contract blind spots.
 - Delete or rewrite failing tests only when the active task/PR explicitly changes the requirement or external contract—never delete tests to mask regressions, and never patch around obsolete tests.
 - Tests must be fully isolated; hard-coded time waits, sleeps, and timing-based concurrency stress loops are prohibited—use event synchronization, signals, barriers, or deterministic step interleaving.
 - Control flow logic (conditional branches, loops, ternary expressions) is prohibited in test code; use linear assertions or per-call boundary doubles.
