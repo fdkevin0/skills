@@ -15,7 +15,7 @@ Every non-trivial PR or branch requires sign-off from **one fresh-context Review
 - **Antigravity**: Launch one fresh-context subagent via `invoke_subagent` (`TypeName: "self"`, `Model: "inherit"`; under `Orchestrator`, dispatch during the Plan / Plan Review turn so `inherit` binds to the Carbon/Argon planner rather than the Flash execution worker).
 - **Other harnesses (`paseo` / CLI)**: Run one fresh-context review session on the active default frontier model.
 - **Review scope**: Read-only against repository files; audit logic, security, load behavior, YAGNI (`ponytail-review` lens), and compliance with global/repo `AGENTS.md` and `docs/preferences/`.
-- **Cleanup & schema checks**: Flag hand-rolled wheels replaceable by mature/existing deps, leftover dead types/docs from retired features, stub-echo tests, and offline fixtures whose shape diverges from live external payloads.
+- **Design, cleanup & schema checks**: Flag patch-stacked `if/else` special cases, overlapping boolean flags, or catch-and-fallback patches that warrant refactoring into a clean model/boundary, hand-rolled wheels replaceable by mature/existing deps, superseded legacy shims or dead types/docs touched by the diff, stub-echo tests, and offline fixtures whose shape diverges from live external payloads.
 - **Test-refactor & isolation checks**: Diff removed/renamed tests against the base branch and verify every retained production branch they guarded would still fail a remaining test if deleted (never trust title similarity alone); run real AST/linter checks—not line-by-line regex, which misses multi-line constructs—for banned test patterns (monkey-patching, ambient env/`PATH` leaks, sleeps, and in-test control flow).
 
 ## 2. Verification & Verdict Contract
